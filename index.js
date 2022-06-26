@@ -1,7 +1,8 @@
 
 'use strict';
 
-const { sequelize, ItemModel } = require('./src/models');
+const { sequelize, ItemModel, userModel } = require('./src/models');
+
 const server = require('./src/server');
 
 sequelize.sync()

@@ -2,7 +2,7 @@
   "development": {
     "username": "gfarley",
     "password": null,
-    "database": "grocery-list-app",
+    "database": "grocery-list",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

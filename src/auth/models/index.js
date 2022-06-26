@@ -1,7 +1,5 @@
 'use strict';
 
-require('dotenv').config();
-
 const { Sequelize, DataTypes } = require('sequelize');
 const userModel = require('./users.js');
 
@@ -20,6 +18,6 @@ const DATABASE_CONFIG = process.env.NODE_ENV === 'production' ? {
 const sequelize = new Sequelize(DATABASE_URL, DATABASE_CONFIG);
 
 module.exports = {
-  db: sequelize,
-  users: userModel(sequelize, DataTypes),
+  sequelize,
+  UserModel: userModel(sequelize, DataTypes)
 };
