@@ -1,27 +1,17 @@
-
 'use strict';
 
 const { Sequelize, DataTypes } = require('sequelize');
-const itemSchema = require('./item.schema');
-const userModel = require('../auth/models/users')
+const userSchema = require('./user-model');
+const itemSchema = require('./item-model');
 
-const DATABASE_URL = 'test' ? 'sqlite::memory' : 'sqlite:memory';
+const DATABASE_URL = process.env.NODE_ENV === 'test'
+  ? 'sqlite::memory'
+  : process.env.DATABASE_URL || 'sqlite:memory';  // one colon allows us to persist
 
-const DATABASE_CONFIG = process.env.NODE_ENV === 'production' ? {
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    }
-  }
-} : {};
-
-const sequelize = new Sequelize(DATABASE_URL, DATABASE_CONFIG);
-const ItemModel = itemSchema(sequelize, DataTypes);
-const UserModel = userModel(sequelize, DataTypes)
+const sequelize = new Sequelize(DATABASE_URL);
 
 module.exports = {
   sequelize,
-  ItemModel,
-  UserModel,
+  Users: userSchema(sequelize, DataTypes),
+  Items: itemSchema(sequelize, DataTypes),
 };

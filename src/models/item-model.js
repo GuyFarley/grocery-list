@@ -1,5 +1,7 @@
 'use strict';
 
+const models = require(".");
+
 const itemModel = (sequelize, DataTypes) => {
   const model = sequelize.define('item', {
     product: {
@@ -9,7 +11,7 @@ const itemModel = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
+    }
   });
   return model;
 };

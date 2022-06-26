@@ -1,14 +1,12 @@
-
 'use strict';
 
-const { sequelize, ItemModel, userModel } = require('./src/models');
+// in terminal run Node basicAuthStr.js to generate a basic auth string to send in headers via REST client (thunder client).  
 
-const server = require('./src/server');
+let { start } = require('./src/server');
+const { sequelize } = require('./src/models');
 
 sequelize.sync()
-  .then(() => {
-    console.log('Successful Connection!!!');
-  })
-  .catch(err => console.error(err));
+  .then(() => console.log('successfully connected'))
+  .catch((e) => console.error(e));
 
-server.start();
+start();
