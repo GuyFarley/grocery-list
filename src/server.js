@@ -16,27 +16,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.post('/signup', async (req, res, next) => {
-  req.body.password = await bcrypt.hash(req.body.password, 5);
+// app.post('/signup', async (req, res, next) => {
+//   req.body.password = await bcrypt.hash(req.body.password, 5);
 
-  let user = await Users.create(req.body);
-  res.status(200).send(user);
-});
-
-app.get('/hello', basicAuth, (req, res, next) => {
-  let { name } = req.query;
-  console.log('auth proof', req.user.username);
-  res.status(200).send(`Greetings ${name}! this route is now secured by Basic Auth!!!`);
-});
+//   let user = await Users.create(req.body);
+//   res.status(200).send(user);
+// });
 
 app.get('/users', bearerAuth, async (req, res, next) => {
-  console.log('users', req.user);
-  let users = await Users.findAll({});
-  let payload = {
-    results: users,
-    token: req.user.token,
-  };
-  res.send(payload);
+  const userRecords = await Users.findAll({});
+  const list = userRecords.map(user => user.username);
+  res.status(200).json(list);
 });
 
 // Role Based Access Control Routes
