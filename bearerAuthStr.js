@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 const SECRET = process.env.API_SECRET || 'thisIsMySecret';
 
 let user = {
-  username: 'gfarley8',
-  password: 'pass1234567891'
+  username: 'testerEditor2',
+  password: 'newpassword2'
 };
 
 function generateToken(userToHash) {
