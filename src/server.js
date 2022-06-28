@@ -25,8 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/users', bearerAuth, async (req, res, next) => {
   const userRecords = await Users.findAll({});
-  const list = userRecords.map(user => user.username);
-  res.status(200).json(list);
+  // const list = userRecords.map(user => user.username);
+  res.status(200).json(userRecords);
 });
 
 // Role Based Access Control Routes
@@ -49,7 +49,7 @@ app.get('/delete', bearerAuth, acl('delete'), (req, res, next) => {
 
 
 // post
-app.post('/item', async (req, res, next) => {
+app.post('/item', bearerAuth, acl('create'), async (req, res, next) => {
   let item = req.body;
   console.log(req.body);
 
@@ -58,33 +58,33 @@ app.post('/item', async (req, res, next) => {
 });
 
 // get
-app.get('/item', async (req, res, next) => {
+app.get('/item', bearerAuth, acl('read'), async (req, res, next) => {
   let allItems = await Items.findAll();
   res.status(200).send(allItems);
 });
 
 // get one
-app.get('/item/:id', async (req, res, next) => {
+app.get('/item/:id', bearerAuth, acl('read'), async (req, res, next) => {
   let { id } = req.params;
   let oneItem = await Items.findOne({ where: { id } });
   res.status(200).send(oneItem);
 });
 
 // put
-app.put('/item/:id', async (req, res, next) => {
+app.put('/item/:id', bearerAuth, acl('update'), async (req, res, next) => {
   let { id } = req.params;
 
-  await ItemModel.update(req.body, { where: { id } });
+  await Items.update(req.body, { where: { id } });
   let updatedItem = await Items.findOne({ where: { id } });
   res.status(200).send(updatedItem);
 });
 
 // delete
-app.delete('/item/:id', async (req, res, next) => {
+app.delete('/item/:id', bearerAuth, acl('delete'), async (req, res, next) => {
   let { id } = req.params;
   let deletedItem = await Items.findOne({ where: { id } });
 
-  await ItemModel.destroy({ where: { id } });
+  await Items.destroy({ where: { id } });
   res.status(200).send(deletedItem);
 });
 
